@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:CRUD_Empleados.Models"
+             x:Class="CRUD_Empleados.MainPage"
+             Title="Empleados">
+
+    <Grid RowDefinitions="Auto,*" Padding="16" RowSpacing="12">
+
+        <!-- ===== Formulario ===== -->
+        <VerticalStackLayout Grid.Row="0" Spacing="8">
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                <Entry x:Name="NombresEntry" Placeholder="Nombres" />
+                <Entry x:Name="ApellidosEntry" Grid.Column="1" Placeholder="Apellidos" />
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                <Entry x:Name="PuestoEntry" Placeholder="Puesto" />
+                <Entry x:Name="SalarioEntry" Grid.Column="1" Placeholder="Salario" Keyboard="Numeric" />
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                <Entry x:Name="CorreoEntry" Placeholder="Correo" Keyboard="Email" />
+                <DatePicker x:Name="FechaIngresoPicker" Grid.Column="1" />
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                <Button x:Name="GuardarButton" Text="Guardar" Clicked="OnGuardarClicked" />
+                <Button x:Name="EliminarButton" Grid.Column="1" Text="Eliminar"
+                        BackgroundColor="#C62828" IsEnabled="False" Clicked="OnEliminarClicked" />
+                <Button x:Name="LimpiarButton" Grid.Column="2" Text="Limpiar"
+                        BackgroundColor="Gray" Clicked="OnLimpiarClicked" />
+            </Grid>
+        </VerticalStackLayout>
+
+        <!-- ===== Lista ===== -->
+        <ListView x:Name="EmpleadosListView"
+                  Grid.Row="1"
+                  HasUnevenRows="True"
+                  SelectionMode="Single"
+                  ItemSelected="OnEmpleadoSelected">
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Empleados">
+                    <ViewCell>
+                        <Grid Padding="12,8" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                            <Label Text="{Binding NombreCompleto}"
+                                   FontAttributes="Bold" FontSize="16" />
+                            <Label Grid.Row="1" Text="{Binding Puesto}"
+                                   TextColor="{AppThemeBinding Light=Gray, Dark=LightGray}" />
+                            <Label Grid.Column="1" Grid.RowSpan="2"
+                                   Text="{Binding Salario, StringFormat='L. {0:N2}'}"
+                                   FontAttributes="Bold" VerticalOptions="Center" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Label x:Name="SinEmpleadosLabel"
+                Grid.Row="1"
+                Text="No hay empleados registrados."
+                IsVisible="False"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+    </Grid>
+
+</ContentPage>
